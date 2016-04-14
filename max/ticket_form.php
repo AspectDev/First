@@ -17,7 +17,7 @@
  * @package Example
  */
 
-define('DEFAULT_TICKET_STATUS_NAME', 'Open');
+define('DEFAULT_TICKET_STATUS_NAME', 'Открытая');
 require_once("config.php");
 
 
