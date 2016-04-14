@@ -27,8 +27,13 @@ if (!function_exists('ky_xml_to_array')) {
 		$iter = 0;
 		$arr = array();
 // var_dump($xml);
-		if (is_string($xml))
-			@$xml = new SimpleXMLElement(@$xml);
+		if (is_string($xml)){
+			// var_dump($xml);
+			if(!strstr($xml,"<?xml version")){
+				// return false;
+			}
+			@$xml = new SimpleXMLElement(@$xml,LIBXML_NOERROR);
+		}
 
 		if (!($xml instanceof SimpleXMLElement))
 			return $arr;

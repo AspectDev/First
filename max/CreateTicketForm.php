@@ -23,13 +23,12 @@ if(!empty($_POST)){
 	$typeId = $_POST["typeId"];
 	$subject = $_POST["subject"];
 	$msgs = $_POST["msgs"];
-	// $user = KyUser::getAll()->filterByEmail($userEmail)->first();
-
 	$department = kyDepartment::get($_POST["departamentId"]);
 	$status_id = kyTicketStatus::getAll()->filterByTitle("Открытая")->first()->getId();
 	kyTicket::setDefaults($status_id, $prioritetId, $typeId);
 	$ticket = kyTicket::createNewAuto($department, $userName, $userEmail, $msgs, $subject)
 		->create();
+		// echo "string";
 }
 
 // Отрисовка формы.
@@ -68,9 +67,3 @@ if(!empty($_POST)){
 	<textarea name="msgs" cols="30" rows="10" placeholder="Введите ваш вопрос">demo ticket msgs</textarea><br>
 	<input type="submit">
 	</form>
-	<?php
-//debug 
-echo "<pre>";
-	var_dump($_SESSION);
-echo "</pre>";
-?>
