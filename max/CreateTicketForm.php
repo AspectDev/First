@@ -15,29 +15,23 @@ function getDepartmentsTree() {
 
 	return $departments_tree;
 }
-var_dump(getDepartmentsTree());
+$departments_tree =getDepartmentsTree();
 ?>
 <form method="POST">
+	<select name="departament">
 	<?php
 		foreach ($departments_tree as $department_leaf) {
 			$top_department = $department_leaf['department'];
 			$child_departments = $department_leaf['child_departments'];
-
 	?>
-			<label>
-			<input type="radio" name="department_id" value="<?=$top_department->getId()?>">
-			<span><?=$top_department->getTitle()?></span>
-			</label>
-<?php
+		<option value="<?=$top_department->getId()?>"><?=$top_department->getTitle()?></option>
+	<?php
 					foreach ($child_departments as $child_department) {
-						/*@var $child_department kyDepartment */
 ?>
-						<label>
-							<input type="radio" name="department_id" value="<?=$child_department->getId()?>">
-							<span><?=$child_department->getTitle()?></span>
-						</label>
+		<option value="<?=$child_department->getId()?>">|-<?=$child_department->getTitle()?></option>
 <?php		
-			}// child
+			}// child departaments
 		} // departaments
 ?>
+	</select>
 </form>
