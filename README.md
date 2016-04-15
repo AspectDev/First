@@ -1,7 +1,5 @@
-Kayako PHP API library
+
+THIS IS SPAAAAAAAAAAAARTAAAAAAAAAAAAAAAAAAA
 =======================
 
-This library is maintained by Kayako.
-
-* Documentation: http://wiki.kayako.com/display/DEV/PHP+API+Library
-* Project tracker: http://dev.kayako.com/browse/PHPAPI
+THIS IS SPAAAAAAAAAAAARTAAAAAAAAAAAAAAAAAAA
