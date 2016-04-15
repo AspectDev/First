@@ -25,7 +25,7 @@ class Functions extends Config
 		curl_close($curl);
 		return $response;
 	}
-	public function RetriveDepartamentList($OnlyPublick = false){
+	public function RetriveDepartamentList(){
 		$url = "e=/Base/Department&";
 		$xml = $this->curl($url,array(),"GET");
 		$DepartmentList = $this->parseXMLtoArray($xml);
@@ -43,7 +43,18 @@ class Functions extends Config
 		}
 		return $DepartmentList;
 	}
-	
+	public function RetriveUserList(){
+		$url = "e=/Base/User/Filter&";
+		$xml = $this->curl($url,array(),"GET");
+		return $this->parseXMLtoArray($xml);
+	}
+	public function RetriveUserInfoByEmail($email){
+		$userList = $this->RetriveUserList();
+		foreach ($userList["user"] as $key => $val) {
+			if($val["email"] == $email && $val["userrole"] == "user")
+				return $userList["user"][$key];
+		}
+	}
 	private function parseXMLtoArray($xml, $namespaces = null) {
 		$iter = 0;
 		$arr = array();
