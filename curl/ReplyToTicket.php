@@ -7,7 +7,7 @@ $user = $functions->RetriveUserInfoByEmail("rufionov@gmail.com");
 var_dump($user);
 $data = array(
 	'ticketid' => 13499,
-	'contents' => 'Ответ на тикет по API',
+	'contents' => 'DEMO MODE',
 	"userid" =>$user["id"]
 	);
 $ticket = $functions->ReplyTicket($data);
