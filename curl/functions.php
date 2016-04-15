@@ -25,19 +25,25 @@ class Functions extends Config
 		curl_close($curl);
 		return $response;
 	}
-	public function RetriveDepartamentList(){
+	public function RetriveDepartamentList($OnlyPublick = false){
 		$url = "e=/Base/Department&";
 		$xml = $this->curl($url,array(),"GET");
 		$DepartmentList = $this->parseXMLtoArray($xml);
 		foreach ($DepartmentList["department"] as $key => $val) {
-			if($val["parentdepartmentid"] > 0)
-				foreach ($DepartmentList["department"] as  $keyfather =>$value)
+			if($val["type"] == "private"){
+				unset($DepartmentList["department"][$key]);
+				continue;
+			}
+			if($val["parentdepartmentid"] > 0){
+				foreach ($DepartmentList["department"] as $keyfather =>$value)
 					if($value["id"] == $val["parentdepartmentid"])
 						$DepartmentList["department"][$keyfather]["children"][] =$DepartmentList["department"][$key];
+				unset($DepartmentList["department"][$key]);
+			}
 		}
 		return $DepartmentList;
 	}
-
+	
 	private function parseXMLtoArray($xml, $namespaces = null) {
 		$iter = 0;
 		$arr = array();
