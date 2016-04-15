@@ -26,12 +26,9 @@ if (!function_exists('ky_xml_to_array')) {
 	function ky_xml_to_array($xml, $namespaces = null) {
 		$iter = 0;
 		$arr = array();
-// var_dump($xml);
+var_dump($xml);
 		if (is_string($xml)){
-			// var_dump($xml);
-			if(!strstr($xml,"<?xml version")){
-				// return false;
-			}
+
 			@$xml = new SimpleXMLElement(@$xml,LIBXML_NOERROR);
 		}
 

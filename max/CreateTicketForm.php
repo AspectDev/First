@@ -24,17 +24,26 @@ if(!empty($_POST)){
 	$subject = $_POST["subject"];
 	$msgs = $_POST["msgs"];
 	$department = kyDepartment::get($_POST["departamentId"]);
-	$status_id = kyTicketStatus::getAll()->filterByTitle("Открытая")->first()->getId();
+	$status_id = kyTicketStatus::getAll()->filterByTitle("Open")->first()->getId();
 	kyTicket::setDefaults($status_id, $prioritetId, $typeId);
 	$ticket = kyTicket::createNewAuto($department, $userName, $userEmail, $msgs, $subject)
-		->create();
+		->create()->;
+	// $priority = kyTicketPriority::getAll()->filterByTitle("Low")->first();
+	// $user = KyUser::getAll()->filterByEmail($userEmail)->first();
+	// $ticket = $user
+	// ->newTicket(
+	// 	$department,
+	// 	$msgs,
+	// 	$subject)
+	// 	->setPriority($priority)
+	// 	->create();
 		// echo "string";
 }
 
 // Отрисовка формы.
 	$depList = getDepartmentsTree(); // Берем департаменты.
 	$types = kyTicketType::getAll()->filterByType(kyTicketType::TYPE_PUBLIC); // Берем типы
-	$prioritet= kyTicketPriority::getAll()->filterByTitle("Низкий")->first(); // Берем приоритет. default ->getId() = 1
+	$prioritet= kyTicketPriority::getAll()->filterByTitle("Low")->first(); // Берем приоритет. default ->getId() = 1
 ?>
 	<form method="POST">
 		<select name="departamentId">
