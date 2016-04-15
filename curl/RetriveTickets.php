@@ -4,5 +4,5 @@ include_once "functions.php";
 
 $functions = new Functions;
 
-var_dump($functions->RetriveTicketsRetriveTicketsList(-1,-1,-1,6,20));
+var_dump($functions->RetriveTicketsListForTable(356));
 ?>

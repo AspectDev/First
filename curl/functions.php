@@ -81,8 +81,17 @@ class Functions extends Config
 		$url = "e=/Tickets/Ticket";
 		return $this->curl($url, $data);
 	}
-	public function RetriveTicketsList($departmentid=-1, $ticketstatusid=-1, $ownerstaffid=-1,$userid=-1,$count=20){
-		// $departmentid$/$ticketstatusid$/$ownerstaffid$/$userid$/$count$/$start$/$sortField$/$sortOrder$
+	public function RetriveTicketsList($ownerstaffid=-1,$userid=-1,$count=20){
+		$departmentid ="";
+		for ($id=1; $id < 20; $id++) { 
+			$departmentid .= $id.",";
+		}
+		$ticketstatusid = "";
+		for ($id=1; $id < 4; $id++) { 
+			$ticketstatusid .= $id.",";
+		}
+		$departmentid = trim($departmentid, ",");
+		$ticketstatusid = trim($ticketstatusid, ",");
 		$url = "e=/Tickets/Ticket/ListAll/";
 		$url .= $departmentid ."/";
 		$url .= $ticketstatusid ."/";
@@ -91,7 +100,35 @@ class Functions extends Config
 		$url .= $count ."&";
 		$xml = $this->curl($url,array(),"GET");
 		$ticketsList = $this->parseXMLtoArray($xml);
-		var_dump($ticketsList);
+		// var_dump($xml);
+		return $ticketsList;
+	}
+	public function RetriveTicketsListForTable($userid){
+		$TicketsList = $this->RetriveTicketsList($ownerstaffid=-1,$userid);
+		// var_dump($TicketsList);
+		if(empty($TicketsList["ticket"])){
+			return false;
+		}
+		$output = array();
+		foreach ($TicketsList["ticket"] as $key => $val) {
+			if($val["departmentid"] != 0)
+				$output[$TicketsList["ticket"][$key]["displayid"]] = array(
+						'displayid'=>$val['displayid'],
+						'departmentid'=>$val['departmentid'],
+						'statusid'=>$val['statusid'],
+						'userid'=>$val['userid'],
+						'typeid'=>$val['typeid'],
+						'fullname'=>$val['fullname'],
+						'email'=>$val['email'],
+						'lastreplier'=>$val['lastreplier'],
+						'subject'=>$val['subject'],
+						'creationtime'=>$val['creationtime']
+					);
+		}
+		// if(empty($output)){
+		// 	return false;
+		// }
+		return $output;
 	}
 	private function parseXMLtoArray($xml, $namespaces = null) {
 		$iter = 0;
