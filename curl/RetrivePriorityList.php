@@ -4,5 +4,5 @@ include_once "functions.php";
 
 $functions = new Functions;
 
-var_dump($functions->RetrivePriorityList("ip@dalli-service.com"));
+var_dump($functions->RetrivePriorityList());
 ?>

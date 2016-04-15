@@ -41,7 +41,7 @@ class Functions extends Config
 				unset($DepartmentList["department"][$key]);
 			}
 		}
-		return $DepartmentList;
+		return $DepartmentList["department"];
 	}
 	public function RetriveUserList(){
 		$url = "e=/Base/User/Filter&";
@@ -66,7 +66,21 @@ class Functions extends Config
 		}
 		return $output;
 	}
-
+	public function RetriveTicketTypeList(){
+		$url = "e=/Tickets/TicketType&";
+		$xml = $this->curl($url,array(),"GET");
+		$tickettypesList = $this->parseXMLtoArray($xml);
+		$output = array();
+		foreach ($tickettypesList["tickettype"] as $key => $val) {
+			if($val["type"]=="public")
+				$output[] = $tickettypesList["tickettype"][$key];
+		}
+		return $output;
+	}
+	public function NewTicket($data){
+		$url = "e=/Tickets/Ticket";
+		return $this->curl($url, $data);
+	}
 	private function parseXMLtoArray($xml, $namespaces = null) {
 		$iter = 0;
 		$arr = array();
