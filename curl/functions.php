@@ -147,10 +147,23 @@ class Functions extends Config
 						'creationtime'=>$val['creationtime']
 					);
 		}
-		// if(empty($output)){
-		// 	return false;
-		// }
 		return $output;
+	}
+	public function RetriveTicketCurrent($idTicket, $iduser=''){
+		$url = "e=/Tickets/Ticket/";
+		$url .= $idTicket . "&";
+		$xml = $this->curl($url,array(),"GET");
+		$ticketBody = $this->parseXMLtoArray($xml);
+
+		$listdepartament = $this->RetriveDepartamentList(true);
+		foreach ($ticketBody["ticket"] as $key => $val) {
+			$ticketBody["ticket"][$key]["departmenttitle"]=$listdepartament[$val["departmentid"]]["title"];
+		}
+		return $ticketBody["ticket"];
+	}
+	public function ReplyTicket($idTicket, $data= array()){
+		$url = "e=/Tickets/Ticket/&";
+		$xml = $this->curl($url,$data);
 	}
 	private function parseXMLtoArray($xml, $namespaces = null) {
 		$iter = 0;

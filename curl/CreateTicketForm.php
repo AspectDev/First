@@ -20,7 +20,7 @@ if(isset($_POST) && !empty($_POST)){
 	$a = $functions->NewTicket($data);
 	echo "Спасибо что связались с нами";
 }else{	
-	$departamentList = $functions->RetriveDepartamentList();
+	$departamentList = $functions->RetriveDepartamentList(false);
 	$priorityList = $functions->RetrivePriorityList();
 	$priorityList = $functions->RetrivePriorityList();
 	$typeList = $functions->RetriveTicketTypeList();
