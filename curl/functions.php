@@ -81,6 +81,18 @@ class Functions extends Config
 		$url = "e=/Tickets/Ticket";
 		return $this->curl($url, $data);
 	}
+	public function RetriveTicketsList($departmentid=-1, $ticketstatusid=-1, $ownerstaffid=-1,$userid=-1,$count=20){
+		// $departmentid$/$ticketstatusid$/$ownerstaffid$/$userid$/$count$/$start$/$sortField$/$sortOrder$
+		$url = "e=/Tickets/Ticket/ListAll/";
+		$url .= $departmentid ."/";
+		$url .= $ticketstatusid ."/";
+		$url .= $ownerstaffid ."/";
+		$url .= $userid ."/";
+		$url .= $count ."&";
+		$xml = $this->curl($url,array(),"GET");
+		$ticketsList = $this->parseXMLtoArray($xml);
+		var_dump($ticketsList);
+	}
 	private function parseXMLtoArray($xml, $namespaces = null) {
 		$iter = 0;
 		$arr = array();
