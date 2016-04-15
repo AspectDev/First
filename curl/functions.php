@@ -55,6 +55,17 @@ class Functions extends Config
 				return $userList["user"][$key];
 		}
 	}
+	public function RetrivePriorityList(){
+		$url = "e=/Tickets/TicketPriority&";
+		$xml = $this->curl($url,array(),"GET");
+		$priorityList = $this->parseXMLtoArray($xml);
+		$output = array();
+		foreach ($priorityList["ticketpriority"] as $key => $value) {
+			$output[] = $priorityList["ticketpriority"][$key];
+		}
+		return $output;
+	}
+	
 	private function parseXMLtoArray($xml, $namespaces = null) {
 		$iter = 0;
 		$arr = array();

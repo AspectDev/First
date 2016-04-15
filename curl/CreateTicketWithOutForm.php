@@ -12,7 +12,9 @@ $fullname = "MAX";
 $email = "ip@wiz-lab.ru";
 $contents = "Test test test test";
 $departmentid = "1";
+
 $ticketstatusid = "1";
+
 $ticketpriorityid = "1";
 $tickettypeid = "1";
 $userid = "1";
