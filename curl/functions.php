@@ -66,6 +66,18 @@ class Functions extends Config
 		}
 		return $output;
 	}
+	public function RetriveStatusList(){
+		$url = "e=/Tickets/TicketStatus&";
+		$xml = $this->curl($url,array(),"GET");
+		$StatusList = $this->parseXMLtoArray($xml);
+		$output = array();
+		foreach ($StatusList["ticketstatus"] as $key => $val) {
+			if($val["type"]=="public")
+				$output[$val["id"]] = $StatusList["ticketstatus"][$key];
+		}
+		// var_dump($output);
+		return $output;
+	}
 	public function RetriveTicketTypeList(){
 		$url = "e=/Tickets/TicketType&";
 		$xml = $this->curl($url,array(),"GET");
@@ -73,7 +85,7 @@ class Functions extends Config
 		$output = array();
 		foreach ($tickettypesList["tickettype"] as $key => $val) {
 			if($val["type"]=="public")
-				$output[] = $tickettypesList["tickettype"][$key];
+				$output[$val["id"]] = $tickettypesList["tickettype"][$key];
 		}
 		return $output;
 	}
@@ -100,7 +112,7 @@ class Functions extends Config
 		$url .= $count ."&";
 		$xml = $this->curl($url,array(),"GET");
 		$ticketsList = $this->parseXMLtoArray($xml);
-		// var_dump($xml);
+		// var_dump($ticketsList);
 		return $ticketsList;
 	}
 	public function RetriveTicketsListForTable($userid){
@@ -110,14 +122,18 @@ class Functions extends Config
 			return false;
 		}
 		$output = array();
+		$liststatus = $this->RetriveStatusList();
+		$listtype = $this->RetriveTicketTypeList();
 		foreach ($TicketsList["ticket"] as $key => $val) {
 			if($val["departmentid"] != 0)
 				$output[$TicketsList["ticket"][$key]["displayid"]] = array(
 						'displayid'=>$val['displayid'],
 						'departmentid'=>$val['departmentid'],
 						'statusid'=>$val['statusid'],
+						'statustitle'=>$liststatus[$val['statusid']]["title"],
 						'userid'=>$val['userid'],
 						'typeid'=>$val['typeid'],
+						'typeid'=>$listtype[$val['typeid']]["title"],
 						'fullname'=>$val['fullname'],
 						'email'=>$val['email'],
 						'lastreplier'=>$val['lastreplier'],
