@@ -25,12 +25,13 @@ class Functions extends Config
 		curl_close($curl);
 		return $response;
 	}
-	public function RetriveDepartamentList(){
+	public function RetriveDepartamentList($all = false){
 		$url = "e=/Base/Department&";
 		$xml = $this->curl($url,array(),"GET");
 		$DepartmentList = $this->parseXMLtoArray($xml);
+		$output = array();
 		foreach ($DepartmentList["department"] as $key => $val) {
-			if($val["type"] == "private"){
+			if($val["type"] == "private" && $all==false){
 				unset($DepartmentList["department"][$key]);
 				continue;
 			}
@@ -40,8 +41,10 @@ class Functions extends Config
 						$DepartmentList["department"][$keyfather]["children"][] =$DepartmentList["department"][$key];
 				unset($DepartmentList["department"][$key]);
 			}
+			if(!empty($DepartmentList["department"][$key]))
+				$output[$val["id"]] = @$DepartmentList["department"][$key];
 		}
-		return $DepartmentList["department"];
+		return $output;
 	}
 	public function RetriveUserList(){
 		$url = "e=/Base/User/Filter&";
@@ -124,11 +127,14 @@ class Functions extends Config
 		$output = array();
 		$liststatus = $this->RetriveStatusList();
 		$listtype = $this->RetriveTicketTypeList();
+		$listdepartament = $this->RetriveDepartamentList(true);
+		// var_dump($listdepartament);
 		foreach ($TicketsList["ticket"] as $key => $val) {
 			if($val["departmentid"] != 0)
 				$output[$TicketsList["ticket"][$key]["displayid"]] = array(
 						'displayid'=>$val['displayid'],
 						'departmentid'=>$val['departmentid'],
+						'departmenttitle'=>@$listdepartament[$val['departmentid']]["title"] != NULL ? $listdepartament[$val['departmentid']]["title"] : "Приватный",
 						'statusid'=>$val['statusid'],
 						'statustitle'=>$liststatus[$val['statusid']]["title"],
 						'userid'=>$val['userid'],
