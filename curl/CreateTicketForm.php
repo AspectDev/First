@@ -4,7 +4,7 @@ include_once "functions.php";
 $functions = new Functions;
 
 if(isset($_POST) && !empty($_POST)){
-	$user = $functions->RetriveUserInfoByEmail("ip@dalli-service.com");
+	$user = $functions->RetriveUserInfoByEmail("rufionov@gmail.com");
 	
 	$data = array(
 		'fullname' => $user["fullname"],

@@ -161,9 +161,10 @@ class Functions extends Config
 		}
 		return $ticketBody["ticket"];
 	}
-	public function ReplyTicket($idTicket, $data= array()){
-		$url = "e=/Tickets/Ticket/&";
+	public function ReplyTicket($data= array()){
+		$url = "e=/Tickets/TicketPost&";
 		$xml = $this->curl($url,$data);
+		return $xml;
 	}
 	private function parseXMLtoArray($xml, $namespaces = null) {
 		$iter = 0;
